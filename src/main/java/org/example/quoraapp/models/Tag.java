@@ -10,6 +10,11 @@ import java.util.Set;
 @Data
 public class Tag extends BaseModel{
 
+    private String name;
+
+    @ManyToMany(mappedBy = "tags")
+    private Set<Question> questions;
+
     @ManyToMany(mappedBy = "followedTags")
     private Set<User> followers;
 }
