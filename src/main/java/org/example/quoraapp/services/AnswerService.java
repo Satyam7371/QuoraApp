@@ -43,7 +43,7 @@ public class AnswerService {
         return answerRepository.save(answer);
     }
 
-    public void deleteAnswer(AnswerDto answerDto) {
-        answerRepository.deleteById(answerDto.getId());
+    public void deleteAnswer(Long id) {
+        answerRepository.deleteById(id);
     }
 }
