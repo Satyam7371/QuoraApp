@@ -1,7 +1,9 @@
 package org.example.quoraapp.controllers;
 
 import org.example.quoraapp.dtos.UserDto;
+import org.example.quoraapp.models.Question;
 import org.example.quoraapp.models.User;
+import org.example.quoraapp.services.UserFeedService;
 import org.example.quoraapp.services.UserService;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -14,9 +16,11 @@ import java.util.Optional;
 public class UserController {
 
     private UserService userService;
+    private UserFeedService userFeedService;
 
-    public UserController(UserService userService) {
+    public UserController(UserService userService, UserFeedService userFeedService) {
         this.userService = userService;
+        this.userFeedService = userFeedService;
     }
 
     @GetMapping
@@ -46,6 +50,12 @@ public class UserController {
     public ResponseEntity<Void> followUser(@PathVariable Long userId, @PathVariable Long tagId) {
         userService.followTag(userId, tagId);
         return ResponseEntity.noContent().build();
+    }
+
+    // for accessing user feed with questions
+    @GetMapping("/{id}/feed")
+    public ResponseEntity<List<Question>> getUserFeed(@PathVariable Long id, @RequestParam int page, @RequestParam int size) {
+        return ResponseEntity.ok(userFeedService.getUserFeed(id, page, size));
     }
 }
 
